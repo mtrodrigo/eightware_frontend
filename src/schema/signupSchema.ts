@@ -33,7 +33,7 @@ export const signupSchema = z
     state: z.string().length(2, "Estado deve ter exatamente 2 caracteres"),
     zipcode: z
       .string()
-      .length(8, "CEP deve ter exatamente 8 dígitos")
+      .min(8, "CEP deve conter no mínimo 8 números")
       .regex(/^\d+$/, "CEP deve conter apenas números"),
   })
   .refine((data) => data.password === data.confirmpassword, {
