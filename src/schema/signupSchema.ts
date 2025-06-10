@@ -1,6 +1,6 @@
 // loginSchema.ts
 import { z } from "zod";
-import { isValidCPF } from "@/utils/verifyCpf";
+import { isValidCPF } from "@/services/verifyCpf";
 
 export const signupSchema = z
   .object({
