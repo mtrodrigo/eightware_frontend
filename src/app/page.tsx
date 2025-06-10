@@ -1,8 +1,12 @@
 
-export default function Home() {
+export default function Login() {
   return (
     <main>
-      <h1>Rodrigo</h1>
+      <section>
+        <form>
+          
+        </form>
+      </section>
     </main>
   );
 }
