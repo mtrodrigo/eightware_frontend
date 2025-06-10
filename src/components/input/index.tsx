@@ -94,7 +94,7 @@ export const Input = ({
           </button>
         )}
       </div>
-      {error && <span style={{ color: "red" }}>{error}</span>}
+      {error && <span className="text-red-500">{error}</span>}
     </div>
   );
 };
