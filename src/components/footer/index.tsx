@@ -42,7 +42,9 @@ const Footer = () => {
           />
         </a>
       </div>
-      <p className="text-sm text-center">Criado por Rodrigo Marques Tavares</p>
+      <p className="text-sm text-center">
+        Criado por <span className="font-bold">Rodrigo Marques Tavares</span>
+      </p>
     </footer>
   );
 };
