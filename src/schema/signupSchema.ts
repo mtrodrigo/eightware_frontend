@@ -4,6 +4,7 @@ import { isValidCPF } from "@/services/verifyCpf";
 
 export const signupSchema = z
   .object({
+    name: z.string().min(1, "Preecha o nome"),
     email: z.string().min(1, "Preecha o email").email("Email inválido"),
     password: z.string().min(1, "Preecha a senha"),
     confirmpassword: z.string().min(1, "Campo confirmar senha está vazio"),  
