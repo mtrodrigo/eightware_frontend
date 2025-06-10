@@ -34,7 +34,7 @@ export const Input = ({
       <label className="mb-3" htmlFor={name}>
         {label}
       </label>
-      <div className="flex items-center">
+      <div className="flex items-center relative">
         <input
           className="w-full rounded-md outline-none focus:border-2 focus:border-blue-400 px-2 py-1"
           type={type === "password" && showPassword ? "text" : type}
@@ -48,7 +48,7 @@ export const Input = ({
             onClick={togglePasswordVisibility}
             style={{
               position: "absolute",
-              right: 30,
+              right: 10,
               background: "none",
               border: "none",
               cursor: "pointer",
