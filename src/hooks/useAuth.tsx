@@ -76,7 +76,7 @@ export default function useAuth() {
     localStorage.removeItem("teste_eightware");
     delete api.defaults.headers.Authorization;
     setAuthenticated(false);
-    router.push("/login");
+    router.push("/");
     toast.success("Logout realizado com sucesso");
   };
 
