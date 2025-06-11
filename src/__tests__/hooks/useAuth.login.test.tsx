@@ -69,7 +69,7 @@ describe("useAuth hook", () => {
 
     expect(mockApi.defaults.headers.Authorization).toBe("Bearer token123");
 
-    expect(mockPush).toHaveBeenCalledWith("/me");
+    expect(mockPush).toHaveBeenCalledWith("/profile");
 
     expect(mockToast.success).toHaveBeenCalledWith(
       "Login realizado com sucesso!"

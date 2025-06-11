@@ -55,7 +55,7 @@ export default function useAuth() {
       setAuthenticated(true);
       toast.success(msgText);
 
-      router.push("/me");
+      router.push("/profile");
     } catch (err) {
       const apiError = err as ApiError;
       let errorMessage = "Usuário ou senha incorretos";
