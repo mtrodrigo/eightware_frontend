@@ -11,10 +11,12 @@ jest.mock('next/navigation', () => ({
 }));
 
 const mockLogin = jest.fn();
+const mockLogout = jest.fn();
 const mockContextValue = {
   login: mockLogin,
   authenticated: false,
   isLoading: false,
+  logout: mockLogout,
 };
 
 describe('Login', () => {
