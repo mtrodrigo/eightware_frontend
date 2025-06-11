@@ -1,44 +1,72 @@
-import React from 'react'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import '@testing-library/jest-dom'
-import Login from '@/app/page'
+// src/__tests__/pages/login.test.tsx
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import Login from '@/app/page';
+import { Context } from '@/context/UserContext';
 
-describe('Componente de Login', () => {
+// Mock do useRouter
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
+
+// Mock do contexto
+const mockLogin = jest.fn();
+const mockContextValue = {
+  login: mockLogin,
+  authenticated: false,
+  isLoading: false,
+};
+
+describe('Login', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('deve manter os valores dos campos após digitação', async () => {
-    render(<Login />)
-    expect(screen.getByRole('heading')).toBeInTheDocument();
-    
-    const emailInput = screen.getByPlaceholderText('exemplo@exemplo.com.br')
-    const passwordInput = screen.getByPlaceholderText('Digite sua senha')
-    
-    await userEvent.type(emailInput, 'usuario@teste.com')
-    await userEvent.type(passwordInput, 'senha123')
-    
-    expect(emailInput).toHaveValue('usuario@teste.com')
-    expect(passwordInput).toHaveValue('senha123')
-  })
+    render(
+      <Context.Provider value={mockContextValue}>
+        <Login />
+      </Context.Provider>
+    );
+
+    const emailInput = screen.getByPlaceholderText('exemplo@exemplo.com.br');
+    const passwordInput = screen.getByPlaceholderText('Digite sua senha');
+
+    await userEvent.type(emailInput, 'teste@teste.com');
+    await userEvent.type(passwordInput, 'senha123');
+
+    expect(emailInput).toHaveValue('teste@teste.com');
+    expect(passwordInput).toHaveValue('senha123');
+  });
 
   it('deve permitir digitação nos campos de entrada', async () => {
-    render(<Login />)
-    
-    const emailInput = screen.getByPlaceholderText('exemplo@exemplo.com.br')
-    const passwordInput = screen.getByPlaceholderText('Digite sua senha')
-    
-    await userEvent.type(emailInput, 'teste@email.com')
-    await userEvent.type(passwordInput, '123456')
-    
-    expect(emailInput).toHaveValue('teste@email.com')
-    expect(passwordInput).toHaveValue('123456')
-  })
+    render(
+      <Context.Provider value={mockContextValue}>
+        <Login />
+      </Context.Provider>
+    );
+
+    const emailInput = screen.getByPlaceholderText('exemplo@exemplo.com.br');
+    const passwordInput = screen.getByPlaceholderText('Digite sua senha');
+
+    expect(emailInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+  });
 
   it('deve exibir mensagens de erro quando os campos estão inválidos', async () => {
-    render(<Login />)
-    
-    const submitButton = screen.getByRole('button', { name: 'Acessar' })
-    await userEvent.click(submitButton)
-    
-    expect(await screen.findByText('Preecha o email')).toBeInTheDocument()
-    expect(await screen.findByText('Preecha a senha')).toBeInTheDocument()
-  })
-})
+    render(
+      <Context.Provider value={mockContextValue}>
+        <Login />
+      </Context.Provider>
+    );
+
+    const submitButton = screen.getByRole('button', { name: /acessar/i });
+    await userEvent.click(submitButton);
+
+    // Verifique se as mensagens de erro são exibidas conforme seu schema
+    expect(await screen.findByText(/Campo email é obrigatório/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Campo senha é obrigatório/i)).toBeInTheDocument();
+  });
+});

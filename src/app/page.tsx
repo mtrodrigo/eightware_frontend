@@ -8,6 +8,8 @@ import { Button } from "@/components/button";
 import Link from "next/link";
 import { useContext } from "react";
 import { Context } from "@/context/UserContext";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const {
@@ -15,10 +17,22 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
-  const {login, authenticated, isLoading} = useContext(Context);
+  const { login, authenticated, isLoading } = useContext(Context);
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (authenticated) {
+     router.replace("/me");
+    }
+  }, [authenticated, router]);
+
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await login(data);
+    } catch (error) {
+      console.error("Erro no login: ", error);
+    }
   };
 
   return (
