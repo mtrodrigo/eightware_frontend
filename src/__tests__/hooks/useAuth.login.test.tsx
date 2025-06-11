@@ -43,7 +43,7 @@ describe("useAuth hook", () => {
     jest.clearAllMocks();
   });
 
-  it("deve fazer login com sucesso e redirecionar para /me", async () => {
+  it("deve fazer login com sucesso e redirecionar para /profile", async () => {
     mockApi.post.mockResolvedValueOnce({
       data: { token: "token123" },
     });
