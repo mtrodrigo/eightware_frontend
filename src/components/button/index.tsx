@@ -4,7 +4,7 @@ interface ButtonProps {
   text: string;
   type?: "submit";
   disabled?: boolean;
-  onClick: () => void
+  onClick?: () => void
 }
 export const Button = ({ text, type, disabled, onClick }: ButtonProps) => {
   return (
