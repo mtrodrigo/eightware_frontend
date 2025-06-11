@@ -1,8 +1,10 @@
+"use client";
+
 import { LoginFormData } from "@/schema/loginSchema";
 import api from "@/utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 type ApiError = {
   response?: {
@@ -17,6 +19,26 @@ export default function useAuth() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("teste_eightware");
+    if (token) {
+      try {
+        const parsedToken = JSON.parse(token);
+        api.defaults.headers.Authorization = `Bearer ${parsedToken}`;
+        const payload = JSON.parse(atob(parsedToken.split(".")[1]));
+        if (payload.exp && Date.now() / 1000 < payload.exp) {
+          setAuthenticated(true);
+        } else {
+          localStorage.removeItem("teste_eightware");
+          setAuthenticated(false);
+        }
+      } catch {
+        localStorage.removeItem("teste_eightware");
+        setAuthenticated(false);
+      }
+    }
+  }, []);
 
   const login = async (user: LoginFormData) => {
     setIsLoading(true);
@@ -33,7 +55,7 @@ export default function useAuth() {
       setAuthenticated(true);
       toast.success(msgText);
 
-      await router.push("/me");
+      router.push("/me");
     } catch (err) {
       const apiError = err as ApiError;
       let errorMessage = "Usuário ou senha incorretos";
