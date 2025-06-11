@@ -4,14 +4,12 @@ import userEvent from '@testing-library/user-event';
 import Login from '@/app/page';
 import { Context } from '@/context/UserContext';
 
-// Mock do useRouter
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: jest.fn(),
   }),
 }));
 
-// Mock do contexto
 const mockLogin = jest.fn();
 const mockContextValue = {
   login: mockLogin,
@@ -65,7 +63,6 @@ describe('Login', () => {
     const submitButton = screen.getByRole('button', { name: /acessar/i });
     await userEvent.click(submitButton);
 
-    // Verifique se as mensagens de erro são exibidas conforme seu schema
     expect(await screen.findByText(/Campo email é obrigatório/i)).toBeInTheDocument();
     expect(await screen.findByText(/Campo senha é obrigatório/i)).toBeInTheDocument();
   });
