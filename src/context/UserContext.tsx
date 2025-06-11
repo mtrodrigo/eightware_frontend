@@ -7,6 +7,7 @@ interface UserContextProps {
   authenticated: boolean;
   login: (user: { email: string; password: string }) => Promise<void>;
   isLoading: boolean;
+  logout: () => void;
 }
 
 interface ChildrenProps {
@@ -17,13 +18,14 @@ const Context = createContext<UserContextProps>({
   authenticated: false,
   login: async () => {},
   isLoading: false,
+  logout: () => {}
 });
 
 const UserProvider = ({ children }: ChildrenProps) => {
-  const { authenticated, login, isLoading } = useAuth();
+  const { authenticated, login, isLoading, logout } = useAuth();
 
   return (
-    <Context.Provider value={{ authenticated, login, isLoading }}>
+    <Context.Provider value={{ authenticated, login, isLoading, logout }}>
       {children}
     </Context.Provider>
   );
