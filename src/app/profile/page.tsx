@@ -1,6 +1,6 @@
 
 
-export default function Me() {
+export default function Profile() {
   
   return (
     <main className="w-full flex items-center justify-center">
