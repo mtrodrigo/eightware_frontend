@@ -7,9 +7,26 @@ import { Input } from "@/components/input";
 import { Button } from "@/components/button";
 import Link from "next/link";
 import { fetchAddressByCep } from "@/services/cepService";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import api from "@/utils/api";
+import { useRouter } from "next/navigation";
+import { Context } from "@/context/UserContext";
+import toast from "react-hot-toast";
+
+export type ApiError = {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+};
 
 export default function Signup() {
+  const { authenticated } = useContext(Context);
+
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -17,8 +34,17 @@ export default function Signup() {
     setFocus,
     watch,
     formState: { errors },
-    reset,
-  } = useForm<SignupFormData>({ resolver: zodResolver(signupSchema) });
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+    mode: "onBlur",
+  });
+
+  useEffect(() => {
+    if (authenticated) {
+      setIsLoading(true);
+      router.replace("/profile");
+    }
+  }, [authenticated, router]);
 
   const cep = watch("zipcode");
 
@@ -34,6 +60,10 @@ export default function Signup() {
         setValue("city", address.localidade, { shouldValidate: true });
         setValue("state", address.uf, { shouldValidate: true });
 
+        if (address.logradouro === "") {
+          setFocus("address");
+          return;
+        }
         setFocus("number");
       } catch (error) {
         console.error("Erro ao buscar endereço:", error);
@@ -47,9 +77,35 @@ export default function Signup() {
     loadAddress();
   }, [cep, setValue, setFocus]);
 
-  const onSubmit = (data: SignupFormData) => {
-    console.log("Dados do formulário:", data);
+  const onSubmit = async (data: SignupFormData) => {
+    setIsLoading(true);
+    try {
+      await api.post("/users/signup", data);
+      toast.success("Cadastro realizado com sucesso!");
+      router.push("/");
+    } catch (err) {
+      const apiError = err as ApiError;
+      let errorMessage = "Erro ao castrar";
+
+      if (apiError.response?.data?.message) {
+        errorMessage = apiError.response.data.message;
+      }
+
+      setError(errorMessage);
+      toast.error(errorMessage);
+      console.error("Erro de autenticação:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <main className="w-full flex items-center justify-center">
+        <div className="animate-spin rounded-full h-14 w-14 border-t-4 border-blue-500 border-solid"></div>
+      </main>
+    );
+  }
 
   return (
     <main className="w-full flex items-center justify-center">
@@ -58,6 +114,7 @@ export default function Signup() {
           Faça seu cadastro
         </h1>
         <form
+          aria-label="Formulário de cadastro"
           onSubmit={handleSubmit(onSubmit)}
           className="w-full px-5 flex flex-col items-center justify-center gap-5"
         >
@@ -154,7 +211,7 @@ export default function Signup() {
             </div>
           </div>
           <div className="my-5">
-            <Button text="Acessar" />
+            <Button type="submit" text="Cadastrar" />
           </div>
         </form>
         <p className="text-center">
