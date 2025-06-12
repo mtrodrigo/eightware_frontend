@@ -5,6 +5,14 @@ import Signup from "@/app/signup/page";
 import { fetchAddressByCep } from "@/services/cepService";
 import api from '@/utils/api';
 
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+afterAll(() => {
+  (console.error as jest.Mock).mockRestore();
+});
+
 jest.mock('@/services/cepService');
 jest.mock('@/utils/api');
 jest.mock("next/navigation", () => ({
