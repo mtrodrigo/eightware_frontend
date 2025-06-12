@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Eightware Frontend
 
-## Getting Started
+Este projeto é o frontend do teste técnico Eightware. **Antes de instalar e configurar o frontend, é obrigatório instalar e configurar o backend**.
 
-First, run the development server:
+## Pré-requisitos
+
+- Node.js (versão recomendada: 18.x ou superior)
+- npm, yarn, etc.
+- Backend Eightware configurado e em execução
+
+## Tecnologias utilizadas
+
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS
+- Jest 
+- Testing Library 
+- React Hook Form 
+- Zod 
+- Axios 
+- React Hot Toast
+
+## Passos para Instalação
+
+### 1. Instale e configure o backend
+
+> **Atenção:** O frontend depende do backend. Siga as instruções do repositório do backend para instalar e rodar o servidor antes de continuar.
+
+Repositório do backend: https://github.com/mtrodrigo/eightware_backend.git
+
+### 2. Clone este repositório
+
+```bash
+git clone https://github.com/mtrodrigo/eightware_frontend.git
+cd eightware_frontend
+```
+
+### 3. Instale as dependências
+
+Com npm:
+
+```bash
+npm install
+```
+
+### 4. Execute o projeto
+
+Com npm:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O frontend estará disponível em `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 5. Executando os testes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Para rodar todos os testes unitários e de componentes, utilize:
 
-## Learn More
+```bash
+npm test
+```
 
-To learn more about Next.js, take a look at the following resources:
+Para rodar os testes em modo observação (watch):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run test:watch
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Para rodar os testes com saída detalhada (verbose):
 
-## Deploy on Vercel
+```bash
+npm run test:verbose
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Observações
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Certifique-se de que o backend está rodando antes de acessar o frontend.
+- Para dúvidas sobre o backend, consulte o README do repositório correspondente.
+
+## Criado por
+
+Rodrigo Marques Tavares
+- **Email:** rodrigour@gmail.com
+- **WhatsApp:** (35) 98406-1841
